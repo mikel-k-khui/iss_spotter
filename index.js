@@ -1,23 +1,37 @@
 // index.js
 const { fetchMyIP } = require('./iss');
-// const { fetchCoordsByIP } = require('./iss');
+const { fetchCoordsByIP } = require('./iss');
+const { fetchISSFlyOverTimes } = require('/iss');
 
-fetchMyIP((error, ip) => {
+fetchMyIP((ipError, ip) => {
   // console.log(`${error} and ${ip}`);
-  if (error) {
-    console.log("It didn't work!" , error);
+  if (ipError) {
+    console.log("It didn't work!" , ipError);
     return;
   } else {
     console.log('It worked! Returned IP:' , ip);
-    // fetchCoordsByIP(ip, (error, data) => {
-    //   // console.log(`${error} and ${ip}`);
-    //   if (error) {
-    //     console.log("Fetching the coordinates didn't work!" , error);
-    //     return;
-    //   }
-    //   console.log('It worked! latitude and longitude:' , data);
-    // });
+
+    fetchCoordsByIP(ip, (CoordErr, latLong) => {
+      // console.log(`${error} and ${ip}`);
+      if (CoordErr) {
+        console.log("Fetching the coordinates didn't work!" , CoordErr);
+        return;
+      } else {
+        console.log('It worked! latitude and longitude:' , latLong);
+    
+        fetchCoordsByIP(latLong, (flyErr, flyOverTime) => {
+        // console.log(`${error} and ${ip}`);
+          if (flyErr) {
+            console.log("Fetching the coordinates didn't work!" , flyErr);
+            return;
+          }
+          console.log('It worked! latitude and longitude:' , flyOverTime); 
+        });
+      }
+      //end of fetchISSFlyOverTimes(coordinates, function())
+    });
     // end of fetchCoordsByIP(ip,function())
   }
 });
+//end of fetchMyIP(function())
 

@@ -1,3 +1,11 @@
+const request = require('request');
+const searchKey = require('./constant');
+
+/**
+ * Parse out JSON files and return it in more readable format for ouput
+*/
+const parseJSON = (requestBody) => JSON.parse(requestBody);
+
 /**
  * Makes a single API request to retrieve the user's IP address.
  * Input:
@@ -6,9 +14,6 @@
  *   - An error, if any (nullable)
  *   - The IP address as a string (null if error). Example: "162.245.144.188"
  */
-const request = require('request');
-const searchKey = require('./constant');
-
 const fetchMyIP = function(callback) {
   // use request to fetch IP address from JSON API
   searchKey.url = 'https://api.ipify.org?format=json';
@@ -54,10 +59,21 @@ const fetchCoordsByIP = function(ipAdd, callBack) {
     }
   });
 };
+/**
+ * Makes a single API request to retrieve upcoming ISS fly over times the for the given lat/lng coordinates.
+ * Input:
+ *   - An object with keys `latitude` and `longitude`
+ *   - A callback (to pass back an error or the array of resulting data)
+ * Returns (via Callback):
+ *   - An error, if any (nullable)
+ *   - The fly over times as an array of objects (null if error). Example:
+ *     [ { risetime: 134564234, duration: 600 }, ... ]
+ */
+const fetchISSFlyOverTimes = function(coords, callback) {
+  return(null, "hello");
+};
 
-const parseJSON = (requestBody) => JSON.parse(requestBody);
-
-module.exports = { fetchMyIP, fetchCoordsByIP };
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
 
 /*
 $ curl 'https://api.ipify.org?format=json'
