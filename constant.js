@@ -1,5 +1,6 @@
 module.exports = {
   method: 'GET',
-  url: 'https://api.ipify.org?format=json'
+  url: '',
+  headers: {'User-Agent': 'request'}
 };
 // headers: { 'x-api-key': 'DEMO-API-KEY' }
