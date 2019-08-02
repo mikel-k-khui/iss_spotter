@@ -16,10 +16,7 @@ const parseJSON = (requestBody) => JSON.parse(requestBody);
  */
 const fetchMyIP = () => request('https://api.ipify.org?format=json');
 
-const fetchCoordsByIP = function(body) {
-  // console.log(parseJSON(body).ip);
-  return request(`https://ipvigilante.com/json/${parseJSON(body).ip}`);
-};
+const fetchCoordsByIP = (body) => request(`https://ipvigilante.com/json/${parseJSON(body).ip}`);
 
 // /**
 //  * Makes a single API request to retrieve upcoming ISS fly over times the for the given lat/lng coordinates.
@@ -32,10 +29,7 @@ const fetchCoordsByIP = function(body) {
 //  *     [ { risetime: 134564234, duration: 600 }, ... ]
 //  */
 
-const fetchISSFlyOverTimes = function(body) {
-  // console.log(parseJSON(body).data.latitude, parseJSON(body).data.longitude);
-  return request(`http://api.open-notify.org/iss-pass.json?lat=${parseJSON(body).data.latitude}&lon=${parseJSON(body).data.longitude}`);
-};
+const fetchISSFlyOverTimes = (body) => request(`http://api.open-notify.org/iss-pass.json?lat=${parseJSON(body).data.latitude}&lon=${parseJSON(body).data.longitude}`);
 
 // /**
 //  * Orchestrates multiple API requests in order to determine the next 5 upcoming ISS fly overs for the user's current location.
@@ -50,9 +44,7 @@ const nextISSTimesForMyLocation = function() {
   return fetchMyIP()
     .then(fetchCoordsByIP)
     .then(fetchISSFlyOverTimes)
-    .then((flyOverTimes) => {
-      console.log(pastTimesString(parseJSON(flyOverTimes).response));
-    });
+    .then((flyOverTimes) => console.log(pastTimesString(parseJSON(flyOverTimes).response)));
 };
 
 const pastTimesString = function(passTimes) {
